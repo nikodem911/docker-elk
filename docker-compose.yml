@@ -37,7 +37,7 @@ services:
         target: /usr/share/logstash/pipeline
         read_only: true 
     ports:
-      - "5000:5000"
+      - "5044:5044"
       - "9600:9600"
     environment:
       LS_JAVA_OPTS: "-Xmx256m -Xms256m"
@@ -64,7 +64,23 @@ services:
     depends_on:
       - elasticsearch
 
-networks:
+  filebeat:
+    build:
+      context: elk/filebeat/
+      args:
+        ELK_VERSION: $ELK_VERSION      
+    container_name: filebeat
+    volumes:
+      - type: bind
+        source: ./elk/filebeat/config/filebeat.yml
+        target: /usr/share/filebeat/filebeat.yml
+        read_only: true 
+      - ./elk/filebeat/log:/app/log:ro
+    networks:
+      - elk
+    depends_on:
+      - logstash
 
+networks:
   elk:
     driver: bridge

@@ -1,0 +1,7 @@
+# logging
+logging:
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level [%t] [%logger{5}] %m%n"
+    file: "%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level [%t] [%logger{5}] %m%n"
+  level:
+    root: INFO

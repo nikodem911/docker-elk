@@ -1,0 +1,3 @@
+ARG REDIS_VERSION
+
+FROM bitnami/redis:${REDIS_VERSION}

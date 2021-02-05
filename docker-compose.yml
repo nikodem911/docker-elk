@@ -63,6 +63,17 @@ services:
       - elk
     depends_on:
       - elasticsearch
+  
+  redis:    
+    build:
+      context: elk/redis/
+      args:
+        REDIS_VERSION: $REDIS_VERSION
+    ports: 
+      - "6379:6379"  
+    environment:
+    # In dev only!
+    - ALLOW_EMPTY_PASSWORD=yes
 
   filebeat:
     build:

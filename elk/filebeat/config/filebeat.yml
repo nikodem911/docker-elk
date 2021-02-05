@@ -1,9 +1,27 @@
 filebeat.inputs:
 - type: log
   paths:
-    - /app/log/*.log  
+    - /app/log/app1/*.log
+  fields: {app: app1}
   multiline.pattern: '^([0-9]{4}-[0-9]{2}-[0-9]{2})'
   multiline.negate: true
   multiline.match: after
-output.logstash:
-  hosts: ["logstash:5044"]
+
+- type: log
+  paths:
+    - /app/log/app2/*.log
+  fields: {app: app2}
+  multiline.pattern: '^([0-9]{4}-[0-9]{2}-[0-9]{2})'
+  multiline.negate: true
+  multiline.match: after
+
+output.redis:
+  hosts: ["redis:6379"]
+  password: ""
+  key: "%{[fields.app]:unknown}"
+  #db: 0
+  #timeout: 5
+  
+# For debug purposes
+#output.console:
+#  pretty: true
